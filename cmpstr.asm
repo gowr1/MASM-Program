@@ -1,0 +1,36 @@
+ASSUME CS:CODE,DS:DATA
+DATA SEGMENT
+ MSG1 DB "EQUAL$"
+ MSG2 DB "NOT EQUAL$"
+ A DB "STRING$"
+DATA ENDS
+
+EXTRA SEGMENT
+ B DB "SPRING$"
+EXTRA ENDS
+ 
+CODE SEGMENT
+START: MOV AX,DATA
+       MOV DS,AX
+       MOV AX,EXTRA
+       MOV ES,AX
+       
+       MOV SI,OFFSET A
+       MOV DI,OFFSET B
+       MOV CX,0007H
+       CLD
+       
+       REPE CMPSB
+       CMP CX,0000H
+       JNZ L1
+         MOV DX,OFFSET MSG1
+         MOV AH,09H
+         INT 21H
+         JMP L2
+    L1:MOV DX,OFFSET MSG2
+       MOV AH,09H
+       INT 21H   
+    L2:MOV AH,4CH
+       INT 21H          
+CODE ENDS
+END START                   
